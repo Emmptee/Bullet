@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.souha.bullet.Utils.ConstantUtils;
+import com.souha.bullet.imageloader.ImageLoader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
 
     }
 }
