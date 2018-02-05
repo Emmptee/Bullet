@@ -1,21 +1,28 @@
 package com.souha.bullet;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.souha.bullet.Utils.ConstantUtils;
+import com.souha.bullet.databinding.ActivityMainBinding;
+import com.souha.bullet.home.HomeActivity;
 import com.souha.bullet.imageloader.ImageLoader;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final String SHOW_LAUNCH = "showlaunch";
-    private ViewDataBinding binding;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        ImageLoader.get().load(binding.mainIv, R.mipmap.main_start_icon, new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                return false;
+            }
 
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                binding.mainTv.setText(R.string.launch_desc);
+                return false;
+            }
+        });
+
+        binding.mainIv.postDelayed(() ->{
+            HomeActivity.launch(this);
+        },delayMillis);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

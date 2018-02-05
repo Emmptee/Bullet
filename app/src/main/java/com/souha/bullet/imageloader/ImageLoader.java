@@ -8,13 +8,14 @@ import com.souha.bullet.imageloader.glide.GlideImpl;
 
 public final class ImageLoader {
     private static IImageLoader iImageLoader;
+
     public ImageLoader() {
 
     }
 
-    public static IImageLoader get(){
+    public static IImageLoader get() {
         if (iImageLoader == null) {
-            synchronized (ImageLoader.class){
+            synchronized (ImageLoader.class) {
                 if (iImageLoader == null) {
                     iImageLoader = new GlideImpl();
                 }
@@ -22,5 +23,4 @@ public final class ImageLoader {
         }
         return iImageLoader;
     }
-
 }
