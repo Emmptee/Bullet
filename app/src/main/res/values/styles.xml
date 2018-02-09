@@ -11,8 +11,8 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:windowBackground">@color/f5</item>
 
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>//隐藏ActionBar
+        <item name="windowNoTitle">true</item>//隐藏ActionBar
     </style>
 
     <style name="LoginTheme" parent="Theme.AppCompat.Light.DarkActionBar">

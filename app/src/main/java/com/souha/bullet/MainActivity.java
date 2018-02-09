@@ -20,44 +20,49 @@ import com.souha.bullet.imageloader.ImageLoader;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-    private static final String SHOW_LAUNCH = "showlaunch";
+    private static final String SHOW_LAUNCH = "showLaunch";
+
     private ActivityMainBinding binding;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         boolean isShow = SPUtils.getInstance().getBoolean(SHOW_LAUNCH);
         long delayMillis = !isShow && ConstantUtils.isReleaseBuild() ? 2500 : 0;
-        if (delayMillis >0){
-            SPUtils.getInstance().put(SHOW_LAUNCH,true);
-
+        if (delayMillis > 0) {
+            SPUtils.getInstance().put(SHOW_LAUNCH, false);
         }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
         ImageLoader.get().load(binding.mainIv, R.mipmap.main_start_icon, new RequestListener<Drawable>() {
             @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+            public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                        Target<Drawable> target, boolean isFirstResource) {
                 return false;
             }
 
             @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target,
+                                           DataSource dataSource, boolean isFirstResource) {
                 binding.mainTv.setText(R.string.launch_desc);
                 return false;
             }
         });
 
-        binding.mainIv.postDelayed(() ->{
+        binding.mainIv.postDelayed(() -> {
             HomeActivity.launch(this);
-        },delayMillis);
+            finish();
+        }, delayMillis);
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
     }
 }
+
