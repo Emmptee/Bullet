@@ -1,6 +1,7 @@
 package com.souha.bullet.data.realm;
 
-import com.future.awaker.data.SpecialDetail;
+
+import com.souha.bullet.data.SpecialDetail;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

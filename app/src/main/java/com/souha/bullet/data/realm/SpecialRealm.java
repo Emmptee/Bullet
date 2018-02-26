@@ -1,12 +1,9 @@
 package com.souha.bullet.data.realm;
 
-import com.future.awaker.data.Special;
+import com.souha.bullet.data.Special;
 
 import io.realm.RealmObject;
 
-/**
- * Created by ruzhan on 2017/7/21.
- */
 
 public class SpecialRealm extends RealmObject {
 

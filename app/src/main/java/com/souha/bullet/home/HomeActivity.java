@@ -3,6 +3,7 @@ package com.souha.bullet.home;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.souha.bullet.R;
 import com.souha.bullet.base.listener.DebouncingOnClickListener;
 import com.souha.bullet.databinding.ActivityHomeBinding;
 import com.souha.bullet.login.LoginActivity;
+import com.souha.bullet.setting.SettingActivity;
 
 /**
  * Created by shidongfang on 2018/2/5.
@@ -68,6 +70,26 @@ public class HomeActivity extends AppCompatActivity {
         binding.drawerLayout.setDrawerListener(drawerToggle);
 
         initHeaderView();
+        initNavigationViewMenu();
+    }
+
+    private void initNavigationViewMenu() {
+        //使ICON颜色恢复本色
+        binding.navigationView.setItemIconTintList(null);
+        ColorStateList csl = getResources().getColorStateList(R.color.navigation_menu_item_color);
+        binding.navigationView.setItemTextColor(csl);
+
+    /*    binding.navigationView.setNavigationItemSelectedListener(item -> {
+            switch(item.getItemId()){
+                case R.id.develop_desc:
+//                    SettingActivity.
+                    break;
+                *//*case value2:
+                    break;
+                default:
+                    break;*//*
+            }
+        });*/
     }
 
     private void initHeaderView() {

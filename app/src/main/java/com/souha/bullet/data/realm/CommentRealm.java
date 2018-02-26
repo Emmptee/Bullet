@@ -1,7 +1,8 @@
 package com.souha.bullet.data.realm;
 
 
-import com.future.awaker.data.Comment;
+
+import com.souha.bullet.data.Comment;
 
 import io.realm.RealmObject;
 

@@ -24,7 +24,7 @@ public class UserDetail {
     public String title;
     public String fans;
     public String following;
-    public Level level;
+    public com.souha.bullet.data.Level level;
     public String now_shop_score;
     public int is_self;
     public String message_unread_count;

@@ -1,6 +1,6 @@
 package com.souha.bullet.data.realm;
 
-import com.future.awaker.data.Comment;
+import com.souha.bullet.data.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,6 @@ import java.util.List;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-
-/**
- * Copyright ©2017 by ruzhan
- */
 
 public class CommentHotRealm extends RealmObject {
 
