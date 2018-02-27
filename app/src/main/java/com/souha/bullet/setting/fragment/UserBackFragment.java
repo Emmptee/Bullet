@@ -1,6 +1,5 @@
 package com.souha.bullet.setting.fragment;
 
-import android.app.Application;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.souha.bullet.MyApplication;
 import com.souha.bullet.R;
+import com.souha.bullet.Utils.KeyboardUtils;
 import com.souha.bullet.base.BaseFragment;
 import com.souha.bullet.base.listener.DebouncingOnClickListener;
 import com.souha.bullet.databinding.FragUserBackBinding;
@@ -89,6 +89,14 @@ public class UserBackFragment extends BaseFragment<FragUserBackBinding>{
                         .show();
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        KeyboardUtils.closeSoftInput(getActivity(),binding.contentEt);
+        userBackViewModel.isSend.removeOnPropertyChangedCallback(sendCallBack);
+        userBackViewModel.clear();
+        super.onDestroyView();
     }
 
     private class SendCallBack extends Observable.OnPropertyChangedCallback{

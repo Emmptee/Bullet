@@ -44,8 +44,14 @@ public class SettingActivity extends AppCompatActivity{
 
     private void switchUserBackFragment() {
         if (userBackFragment == null) {
-            userBackFragment = UserBackFragment.new
+            userBackFragment = UserBackFragment.newInstance();
         }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.container_fl,userBackFragment,
+                        UserBackFragment.class.getSimpleName())
+                .commit();
     }
 
     private void switchDevelopDescFragment() {

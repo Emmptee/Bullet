@@ -26,6 +26,7 @@ import com.souha.bullet.base.listener.DebouncingOnClickListener;
 import com.souha.bullet.databinding.ActivityHomeBinding;
 import com.souha.bullet.login.LoginActivity;
 import com.souha.bullet.setting.SettingActivity;
+import com.souha.bullet.source.AwakerRepository;
 
 /**
  * Created by shidongfang on 2018/2/5.
@@ -71,6 +72,8 @@ public class HomeActivity extends AppCompatActivity {
 
         initHeaderView();
         initNavigationViewMenu();
+
+        
     }
 
     private void initNavigationViewMenu() {
@@ -79,17 +82,40 @@ public class HomeActivity extends AppCompatActivity {
         ColorStateList csl = getResources().getColorStateList(R.color.navigation_menu_item_color);
         binding.navigationView.setItemTextColor(csl);
 
-    /*    binding.navigationView.setNavigationItemSelectedListener(item -> {
+        binding.navigationView.setNavigationItemSelectedListener(item -> {
             switch(item.getItemId()){
                 case R.id.develop_desc:
-//                    SettingActivity.
+                    SettingActivity.launch(this,SettingActivity.DEVELOP_DESC);
                     break;
-                *//*case value2:
+                case R.id.cache_clear:
+                    handlerCacheClear();
+                    break;
+                case R.id.user_back:
+                    SettingActivity.launch(this, SettingActivity.USER_BACK);
                     break;
                 default:
-                    break;*//*
+                    Toast.makeText(this, R.string.future_desc, Toast.LENGTH_SHORT).show();
+                    break;
             }
-        });*/
+            return true;
+        });
+    }
+
+    private void handlerCacheClear() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.cache_clear)
+                .content(R.string.cache_clear_desc)
+                .positiveText(R.string.confirm)
+                .negativeText(R.string.cancel)
+                .theme(Theme.DARK)
+                .negativeColorRes(R.color.text_color)
+                .positiveColorRes(R.color.text_color)
+                .onPositive((dialog,which) ->{
+                    AwakerRepository.get().clearAll();
+                    Toast.makeText(this,R.string.cache_clear_finish, Toast.LENGTH_SHORT).show();
+                })
+                .onNegative((dialog,which) ->dialog.dismiss())
+                .show();
     }
 
     private void initHeaderView() {
