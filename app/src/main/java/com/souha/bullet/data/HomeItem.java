@@ -8,10 +8,6 @@ import com.souha.bullet.Utils.ResUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Copyright ©2017 by ruzhan
- */
-
 public class HomeItem {
 
     public static final int NICE_COMMENT = -1000;

@@ -1,16 +1,20 @@
 package com.souha.bullet.home;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,14 +23,25 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
+import com.gordonwong.materialsheetfab.MaterialSheetFab;
+import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.souha.bullet.Account;
 import com.souha.bullet.MainActivity;
 import com.souha.bullet.R;
+import com.souha.bullet.Utils.ResUtils;
 import com.souha.bullet.base.listener.DebouncingOnClickListener;
+import com.souha.bullet.data.Special;
 import com.souha.bullet.databinding.ActivityHomeBinding;
+import com.souha.bullet.home.adapter.HomeAdapter;
 import com.souha.bullet.login.LoginActivity;
 import com.souha.bullet.setting.SettingActivity;
 import com.souha.bullet.source.AwakerRepository;
+
+import com.souha.bullet.base.listener.onPageSelectedListener;
+
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by shidongfang on 2018/2/5.
@@ -49,6 +64,13 @@ public class HomeActivity extends AppCompatActivity {
     private TextView userNameTv;
     private TextView userOtherDescTv;
     private TextView userExitLoginTv;
+    private MaterialSheetFab materialSheetFab;
+    
+    private long firstTime = 0;
+    
+    private HomeClickListener homeClickListener = new HomeClickListener();
+    private HomeAdapter mHomeAdapter;
+
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -73,7 +95,87 @@ public class HomeActivity extends AppCompatActivity {
         initHeaderView();
         initNavigationViewMenu();
 
-        
+        setUpFab();
+        setUpTabs();
+
+    }
+
+    private void setUpTabs() {
+        List<String> titles = Arrays.asList(ResUtils.getString(R.string.home),ResUtils.getString(R.string.news),
+                ResUtils.getString(R.string.video));
+
+        mHomeAdapter = new HomeAdapter(getSupportFragmentManager(), titles);
+        binding.viewpager.setAdapter(mHomeAdapter);
+        binding.viewpager.setOffscreenPageLimit(titles.size());
+        binding.tabs.setupWithViewPager(binding.viewpager);
+
+        materialSheetFab.hideSheetThenFab();
+        binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updateFab(position);
+
+                binding.toolbar.postDelayed(() ->{
+                    Fragment fragment = mHomeAdapter.getCurrentFragment(position);
+                    if (fragment instanceof onPageSelectedListener){
+                        ((onPageSelectedListener) fragment).onPageSelected(position);
+                    }
+                },DEFAULT_DURATION);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        binding.toolbar.post(() ->{
+            if (binding.viewpager != null) {
+                binding.viewpager.setCurrentItem(HomeAdapter.NEW,false);
+            }
+        });
+    }
+
+    private void updateFab(int position) {
+        switch(position){
+            case HomeAdapter.HOME:
+                materialSheetFab.hideSheetThenFab();
+                break;
+            case HomeAdapter.NEW:
+                materialSheetFab.hideSheetThenFab();
+                break;
+            case HomeAdapter.VIDEO:
+                materialSheetFab.showFab();
+                break;
+        }
+    }
+
+    private void setUpFab() {
+        int sheetColor = getResources().getColor(R.color.white);
+        int fabColor = getResources().getColor(R.color.colorAccent);
+        materialSheetFab = new MaterialSheetFab<>(binding.fab, binding.fabSheet, binding.overlay, sheetColor, fabColor);
+        materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
+            @Override
+            public void onShowSheet() {
+                super.onShowSheet();
+            }
+
+            @Override
+            public void onHideSheet() {
+                super.onHideSheet();
+            }
+        });
+
+        binding.fabSheetItemUfo.setOnClickListener(homeClickListener);
+        binding.fabSheetItemTheory.setOnClickListener(homeClickListener);
+        binding.fabSheetItemSpirit.setOnClickListener(homeClickListener);
+        binding.fabSheetItemFree.setOnClickListener(homeClickListener);
+        binding.fabSheetItemNormal.setOnClickListener(homeClickListener);
     }
 
     private void initNavigationViewMenu() {
@@ -159,6 +261,61 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                toggleDrawer();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void toggleDrawer() {
+        if (binding.drawerLayout.isDrawerVisible(GravityCompat.START)){
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            binding.drawerLayout.openDrawer(GravityCompat.START);
+        }
+    }
+
+    private class HomeClickListener extends DebouncingOnClickListener{
+
+        @Override
+        public void doclick(View v) {
+            switch(v.getId()){
+                case R.id.fab_sheet_item_ufo:
+                    mHomeAdapter.setCat(Special.UFO);
+                    materialSheetFab.hideSheet();
+                    break;
+                case R.id.fab_sheet_item_theory:
+                    mHomeAdapter.setCat(Special.THEORY);
+                    materialSheetFab.hideSheet();
+                    break;
+                case R.id.fab_sheet_item_spirit:
+                    mHomeAdapter.setCat(Special.SPIRIT);
+                    materialSheetFab.hideSheet();
+                    break;
+                case R.id.fab_sheet_item_free:
+                    mHomeAdapter.setCat(Special.FREE);
+                    materialSheetFab.hideSheet();
+                    break;
+                case R.id.fab_sheet_item_normal:
+                    mHomeAdapter.setCat(Special.NORMAL);
+                    materialSheetFab.hideSheet();
+                    break;
+            }
+        }
+    }
+    
     private void exitLogin() {
         if (Account.get().isLogin()){
             new MaterialDialog.Builder(this)
