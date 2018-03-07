@@ -57,6 +57,7 @@
             <com.souha.bullet.widget.Fab
                 android:id="@+id/fab"
                 style="@style/Widget.Awaker.Fab"
+                android:tint="@color/f5"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true" />
 

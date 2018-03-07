@@ -43,6 +43,7 @@ public class HomeListAdapter extends RecyclerView.Adapter {
         }
         Banner banner = new Banner(list);
         dataList.clear();
+
         dataList.add(banner);
         dataList.addAll(HomeItem.getList());
         notifyDataSetChanged();
@@ -50,6 +51,7 @@ public class HomeListAdapter extends RecyclerView.Adapter {
 
     public void setData() {
         dataList.clear();
+
         dataList.addAll(HomeItem.getList());
         notifyDataSetChanged();
     }

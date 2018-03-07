@@ -21,6 +21,15 @@
         <activity
             android:name=".home.HomeActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".setting.SettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme"/>
+        <activity android:name=".news.activity.HomeTypeListActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"

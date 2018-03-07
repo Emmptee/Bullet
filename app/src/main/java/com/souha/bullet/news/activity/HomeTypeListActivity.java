@@ -1,4 +1,4 @@
-package com.souha.bullet.news;
+package com.souha.bullet.news.activity;
 
 import android.content.Context;
 import android.content.Intent;

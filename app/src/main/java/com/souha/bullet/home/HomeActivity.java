@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -73,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     public static void launch(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, HomeActivity.class);
         context.startActivity(intent);
     }
 
@@ -121,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
                 updateFab(position);
 
                 binding.toolbar.postDelayed(() ->{
-                    Fragment fragment = mHomeAdapter.getCurrentFragment(position);
+                    Fragment fragment = mHomeAdapter.getCurrentFrag(position);
                     if (fragment instanceof onPageSelectedListener){
                         ((onPageSelectedListener) fragment).onPageSelected(position);
                     }
@@ -176,6 +177,14 @@ public class HomeActivity extends AppCompatActivity {
         binding.fabSheetItemSpirit.setOnClickListener(homeClickListener);
         binding.fabSheetItemFree.setOnClickListener(homeClickListener);
         binding.fabSheetItemNormal.setOnClickListener(homeClickListener);
+    }
+
+    public void showFab(boolean isShow) {
+        if (isShow) {
+            materialSheetFab.showFab();
+        } else {
+            materialSheetFab.hideSheetThenFab();
+        }
     }
 
     private void initNavigationViewMenu() {
@@ -277,6 +286,36 @@ public class HomeActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        long secondTime = System.currentTimeMillis();
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            if (binding.drawerLayout.isDrawerVisible(GravityCompat.START)){
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+
+            if (materialSheetFab.isSheetVisible()){
+                materialSheetFab.hideSheet();
+                return true;
+            }
+
+            if (secondTime - firstTime <BACK_TIME){
+                System.exit(0);
+            }else {
+                Toast.makeText(HomeActivity.this,R.string.exit_app,Toast.LENGTH_SHORT);
+                firstTime = System.currentTimeMillis();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void toggleDrawer() {
