@@ -27,7 +27,6 @@ import com.afollestad.materialdialogs.Theme;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.souha.bullet.Account;
-import com.souha.bullet.MainActivity;
 import com.souha.bullet.R;
 import com.souha.bullet.Utils.ResUtils;
 import com.souha.bullet.base.listener.DebouncingOnClickListener;

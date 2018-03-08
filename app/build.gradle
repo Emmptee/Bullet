@@ -2,6 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 apply plugin: 'io.fabric'
 
+def static gitVersionCode() {
+    def cmd = 'git rev-list HEAD --first-parent --count'
+    cmd.execute().text.trim().toInteger()
+}
+
+
 android {
     signingConfigs {
         config {
@@ -19,6 +25,9 @@ android {
         applicationId "com.souha.bullet"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
+
+        versionCode gitVersionCode()
+        versionName "0.7.0"
 
         manifestPlaceholders = [
                 fabric_apikey: rootProject.fabric_apikey

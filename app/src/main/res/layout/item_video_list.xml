@@ -8,15 +8,15 @@
 
         <variable
             name="specialItem"
-            type="com.souha.bullet.data.Special" />
+            type="com.souha.bullet.data.Special"/>
 
         <variable
             name="listener"
-            type="com.souha.bullet.base.listener.OnItemClickListener" />
+            type="com.souha.bullet.base.listener.OnItemClickListener"/>
 
         <variable
             name="holder"
-            type="com.souha.bullet.video.adapter.VideoListAdapter.VideoHolder" />
+            type="com.souha.bullet.video.adapter.VideoListAdapter.VideoHolder"/>
     </data>
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"

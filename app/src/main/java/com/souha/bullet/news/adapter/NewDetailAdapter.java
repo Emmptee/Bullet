@@ -28,9 +28,6 @@ import com.souha.bullet.news.adapter.holder.NewDetailVideoHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.http.HEAD;
-
-
 public class NewDetailAdapter extends RecyclerView.Adapter {
 
     private static final String COMMENT_TITLE = "commentTitle";
